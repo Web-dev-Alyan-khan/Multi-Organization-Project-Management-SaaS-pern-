@@ -1,7 +1,7 @@
 import { Inngest } from "inngest";
 import prisma from '../config/db.js';
 
-export const inngest = new Inngest({ id: "project-management" });
+export const inngest = new Inngest({ id: "project-management-SaaS" });
 
 // 1. Function to Sync User Creation (Sign-up)
 export const syncUserCreation = inngest.createFunction(
