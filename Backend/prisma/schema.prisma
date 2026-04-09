@@ -1,11 +1,10 @@
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    // url and directUrl MUST be removed from here
+  provider = "postgresql"
+  // REMOVE the url and directUrl lines from here!
 }
 enum WorkspaceRole {
     ADMIN

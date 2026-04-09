@@ -1,12 +1,14 @@
 import { Inngest } from "inngest";
-import prisma from "./prisma.js"; // Ensure this path is correct
+import prisma from '../config/db.js';
 
 export const inngest = new Inngest({ id: "project-management" });
 
 // 1. Function to Sync User Creation (Sign-up)
 export const syncUserCreation = inngest.createFunction(
-  { id: "sync-user-creation" },
-  { event: "clerk/user.created" }, // Event name from your webhook
+  { 
+    id: "sync-user-creation",
+    event: "clerk/user.created" // Correctly placed in the config object
+  },
   async ({ event, step }) => {
     const { id, first_name, last_name, email_addresses, image_url } = event.data;
 
@@ -25,8 +27,10 @@ export const syncUserCreation = inngest.createFunction(
 
 // 2. Function to Sync User Updates
 export const syncUserUpdation = inngest.createFunction(
-  { id: "sync-user-updation" },
-  { event: "clerk/user.updated" },
+  { 
+    id: "sync-user-updation",
+    event: "clerk/user.updated" 
+  },
   async ({ event, step }) => {
     const { id, first_name, last_name, image_url } = event.data;
 
@@ -44,8 +48,10 @@ export const syncUserUpdation = inngest.createFunction(
 
 // 3. Function to Sync User Deletion
 export const syncUserDeletion = inngest.createFunction(
-  { id: "sync-user-deletion" },
-  { event: "clerk/user.deleted" },
+  { 
+    id: "sync-user-deletion",
+    event: "clerk/user.deleted" 
+  },
   async ({ event, step }) => {
     const { id } = event.data;
 
@@ -57,7 +63,6 @@ export const syncUserDeletion = inngest.createFunction(
   }
 );
 
-// Export all functions in the array
 export const functions = [
   syncUserCreation,
   syncUserUpdation,

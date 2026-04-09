@@ -3,8 +3,7 @@ import cors from 'cors';
 import 'dotenv/config';
 import { clerkMiddleware } from '@clerk/express'
 import { serve } from "inngest/express";
-import { inngest } from "./inngest/index.js";
-import { functions } from "./inngest/index.js";
+import { inngest, functions } from "./inngest/index.js"; // Cleaned up double import
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -19,9 +18,11 @@ app.get('/', (req, res) => {
     res.send('API is running successfully!');
 });
 
-// The Inngest serve endpoint
-router.use("/api/inngest",serve({client: inngest,functions: functions,})
-);
+// FIX: Changed 'router' to 'app' and added missing closing parenthesis
+app.use("/api/inngest", serve({ 
+    client: inngest, 
+    functions: functions 
+}));
 
 // Start Server
 app.listen(PORT, () => {
