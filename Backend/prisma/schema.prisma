@@ -1,11 +1,16 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  // REMOVED url and directUrl from here
 }
+
 enum WorkspaceRole {
     ADMIN
     MEMBER
@@ -40,21 +45,23 @@ enum Priority {
 }
 
 model User {
-    id        String   @id
-    name      String
-    email     String   @unique
-    image     String   @default("")
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        String   @id @default(uuid())
+  clerkId   String   @unique   // 🔥 REQUIRED for Clerk integration
 
-    workspaces      WorkspaceMember[]
-    projects        Project[]         @relation("ProjectOwner")
-    tasks           Task[]            @relation("TaskAssignee")
-    comments        Comment[]
-    ownedWorkspaces Workspace[]
-    ProjectMember   ProjectMember[]
+  name      String
+  email     String   @unique
+  image     String   @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  workspaces      WorkspaceMember[]
+  projects        Project[]         @relation("ProjectOwner")
+  tasks           Task[]            @relation("TaskAssignee")
+  comments        Comment[]
+  ownedWorkspaces Workspace[]
+  ProjectMember   ProjectMember[]
 }
-
 model Workspace {
     id          String   @id
     name        String
